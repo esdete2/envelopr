@@ -5,6 +5,18 @@
   ],
   "shell": {
     "scripts": {
+      "dev": [
+        "go run github.com/air-verse/air@latest watch"
+      ],
+      "test": [
+        "go test ./..."
+      ],
+      "build": [
+        "go run ./cmd build"
+      ],
+      "watch": [
+        "go run ./cmd watch"
+      ],
       "lint": [
         "golangci-lint run --out-format tab"
       ],
