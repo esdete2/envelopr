@@ -20,9 +20,17 @@ func main() {
 	app := &cli.App{
 		Name:  "mjml-dev",
 		Usage: "MJML template development tool",
-		Before: func(_ *cli.Context) error {
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:    "verbosity",
+				Usage:   "Verbosity: 1=error, 2=warn, 3=info, 4=debug, 5=trace",
+				Aliases: []string{"v"},
+				Value:   3,
+			},
+		},
+		Before: func(c *cli.Context) error {
 			logHandler := slogutils.NewCLIHandler(os.Stderr, &slogutils.CLIHandlerOptions{
-				Level: slog.LevelDebug,
+				Level: verbosityToSlogLevel(c.Int("verbosity")),
 			})
 			slog.SetDefault(slog.New(logHandler))
 
@@ -41,6 +49,7 @@ func main() {
 					},
 				},
 				Action: func(c *cli.Context) error {
+					logger := slogutils.FromContext(c.Context)
 					cfg, err := config.LoadConfig(c.String("config"))
 					if err != nil {
 						return errors.Wrap(err, "loading config")
@@ -51,7 +60,15 @@ func main() {
 						return errors.Wrap(err, "creating processor")
 					}
 
-					return proc.Process()
+					err = proc.Process()
+
+					if err != nil {
+						return errors.Wrap(err, "processing documents")
+					}
+
+					logger.Info("Documents processed successfully")
+
+					return nil
 				},
 			},
 			{
@@ -139,4 +156,21 @@ func main() {
 	if err := app.Run(os.Args); err != nil {
 		slog.Error("Command failed", slogutils.Err(err))
 	}
+}
+
+func verbosityToSlogLevel(verbosity int) slog.Level {
+	if verbosity <= 1 {
+		return slog.LevelError
+	}
+
+	switch verbosity {
+	case 2:
+		return slog.LevelWarn
+	case 3:
+		return slog.LevelInfo
+	case 4:
+		return slog.LevelDebug
+	}
+
+	return slogutils.LevelTrace
 }
