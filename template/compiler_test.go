@@ -1,4 +1,4 @@
-package template
+package template_test
 
 import (
 	"testing"
@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/mjml-dev/template"
 )
 
 func TestCompiler(t *testing.T) {
@@ -22,7 +23,7 @@ func TestCompiler(t *testing.T) {
 				ValidationLevel: "soft",
 			},
 		}
-		compiler := NewCompiler(cfg)
+		compiler := template.NewCompiler(cfg)
 		result, err := compiler.Compile(input)
 		r.NoError(err)
 
@@ -38,7 +39,7 @@ func TestCompiler(t *testing.T) {
 				ValidationLevel: "soft",
 			},
 		}
-		compiler := NewCompiler(cfg)
+		compiler := template.NewCompiler(cfg)
 		minified, err := compiler.Compile(input)
 		r.NoError(err)
 		cupaloy.SnapshotT(t, minified)
@@ -56,7 +57,7 @@ func TestCompiler(t *testing.T) {
 				PreserveHrefExpressions: true,
 			},
 		}
-		compiler := NewCompiler(cfg)
+		compiler := template.NewCompiler(cfg)
 		result, err := compiler.Compile(input)
 		r.NoError(err)
 		r.Contains(result, `href="{{ .buttonUrl }}"`)
@@ -75,7 +76,7 @@ func TestCompiler(t *testing.T) {
 				},
 			},
 		}
-		compiler := NewCompiler(cfg)
+		compiler := template.NewCompiler(cfg)
 		result, err := compiler.Compile(input)
 		r.NoError(err)
 		r.Contains(result, "CustomFont")
@@ -89,7 +90,7 @@ func TestCompiler(t *testing.T) {
 				ValidationLevel: "strict",
 			},
 		}
-		compiler := NewCompiler(cfg)
+		compiler := template.NewCompiler(cfg)
 		input := `<mjml><mj-body><invalid-tag></invalid-tag></mj-body></mjml>`
 
 		result, err := compiler.Compile(input)

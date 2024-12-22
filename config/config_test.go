@@ -1,4 +1,4 @@
-package config
+package config_test
 
 import (
 	"os"
@@ -6,6 +6,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/esdete2/mjml-dev/config"
 )
 
 func TestLoadConfig(t *testing.T) {
@@ -54,7 +56,7 @@ template:
 		r.NoError(err)
 
 		// Load config
-		cfg, err := LoadConfig(configPath)
+		cfg, err := config.LoadConfig(configPath)
 		r.NoError(err)
 
 		// Verify paths
@@ -92,7 +94,7 @@ template:
 	t.Run("missing config file", func(t *testing.T) {
 		r := require.New(t)
 
-		cfg, err := LoadConfig("nonexistent.yaml")
+		cfg, err := config.LoadConfig("nonexistent.yaml")
 		r.Error(err)
 		r.Nil(cfg)
 	})
@@ -115,7 +117,7 @@ invalid_yaml:
 		err = os.WriteFile(configPath, []byte(invalidConfig), 0644)
 		r.NoError(err)
 
-		cfg, err := LoadConfig(configPath)
+		cfg, err := config.LoadConfig(configPath)
 		r.Error(err)
 		r.Nil(cfg)
 	})
@@ -132,17 +134,17 @@ invalid_yaml:
 		err = os.WriteFile(configPath, []byte(emptyConfig), 0644)
 		r.NoError(err)
 
-		cfg, err := LoadConfig(configPath)
+		cfg, err := config.LoadConfig(configPath)
 		r.NoError(err) // Empty config is valid
-		r.Equal(&Config{
-			Paths: Paths{
+		r.Equal(&config.Config{
+			Paths: config.Paths{
 				Documents: "documents",
 				Output:    "output",
 			},
-			MJML: MJMLConfig{
+			MJML: config.MJMLConfig{
 				ValidationLevel: "soft", // Default validation level
 			},
-			Template: TemplateConfig{},
+			Template: config.TemplateConfig{},
 		}, cfg)
 	})
 }

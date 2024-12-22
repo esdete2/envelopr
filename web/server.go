@@ -1,9 +1,9 @@
 package web
 
 import (
-	"context"
 	"log/slog"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
@@ -23,22 +23,21 @@ type ServerOptions struct {
 }
 
 func NewServer(opts *ServerOptions) *Server {
-	logger := slogutils.FromContext(context.Background())
-	r := chi.NewRouter()
+	router := chi.NewRouter()
 	broker := NewEventBroker()
 
 	// Custom logger middleware
-	r.Use(loggerMiddleware(logger))
-	r.Use(chimiddleware.Recoverer)
+	router.Use(loggerMiddleware())
+	router.Use(chimiddleware.Recoverer)
 
-	s := &Server{
-		router:  r,
+	srv := &Server{
+		router:  router,
 		options: opts,
 		broker:  broker,
 	}
 
-	s.routes()
-	return s
+	srv.routes()
+	return srv
 }
 
 func (s *Server) routes() {
@@ -50,7 +49,15 @@ func (s *Server) routes() {
 
 func (s *Server) Serve(addr string) error {
 	slog.With("address", "http://"+addr).Info("Server started")
-	return http.ListenAndServe(addr, s.router)
+	srv := &http.Server{
+		Addr:              addr,
+		Handler:           s.router,
+		ReadTimeout:       15 * time.Second,
+		WriteTimeout:      15 * time.Second,
+		IdleTimeout:       30 * time.Second,
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+	return srv.ListenAndServe()
 }
 
 func (s *Server) NotifyReload() {
@@ -63,21 +70,23 @@ func (s *Server) ReloadNotifier() handler.ReloadNotifier {
 }
 
 // loggerMiddleware creates a Chi middleware for structured logging
-func loggerMiddleware(logger *slog.Logger) func(next http.Handler) http.Handler {
+func loggerMiddleware() func(next http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			ww := chimiddleware.NewWrapResponseWriter(w, r.ProtoMajor)
+			responseWriter := chimiddleware.NewWrapResponseWriter(w, r.ProtoMajor)
+			logger := slogutils.FromContext(r.Context())
 
 			defer func() {
-				logger.With("method", r.Method).
-					With("path", r.URL.Path).
-					With("status", ww.Status()).
-					With("size", ww.BytesWritten()).
-					With("duration", chimiddleware.GetReqID(r.Context())).
-					Info("request completed")
+				logger.With(
+					"method", r.Method,
+					"path", r.URL.Path,
+					"status", responseWriter.Status(),
+					"size", responseWriter.BytesWritten(),
+					"duration", chimiddleware.GetReqID(r.Context()),
+				).Info("request completed")
 			}()
 
-			next.ServeHTTP(ww, r)
+			next.ServeHTTP(responseWriter, r)
 		})
 	}
 }

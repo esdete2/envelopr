@@ -5,6 +5,8 @@ import (
 	"log/slog"
 	"net/http"
 	"sync"
+
+	"github.com/networkteam/slogutils"
 )
 
 type EventBroker struct {
@@ -50,8 +52,16 @@ func (b *EventBroker) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		case <-r.Context().Done():
 			return
 		case msg := <-messageChan:
-			fmt.Fprintf(w, "data: %s\n\n", msg)
-			w.(http.Flusher).Flush()
+			_, err := fmt.Fprintf(w, "data: %s\n\n", msg)
+			if err != nil {
+				slog.Error("writing event to client", slogutils.Err(err))
+			}
+			if f, ok := w.(http.Flusher); ok {
+				f.Flush()
+			} else {
+				slog.Error("response writer does not support flushing")
+				return
+			}
 		}
 	}
 }

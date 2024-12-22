@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -21,7 +20,7 @@ func main() {
 	app := &cli.App{
 		Name:  "mjml-dev",
 		Usage: "MJML template development tool",
-		Before: func(c *cli.Context) error {
+		Before: func(_ *cli.Context) error {
 			logHandler := slogutils.NewCLIHandler(os.Stderr, &slogutils.CLIHandlerOptions{
 				Level: slog.LevelDebug,
 			})
@@ -125,7 +124,7 @@ func main() {
 
 					select {
 					case <-quit:
-						fmt.Println("\nShutting down...")
+						slog.Info("Shutting down...")
 						watcher.Stop()
 						return nil
 					case err := <-serverErr:
@@ -138,6 +137,6 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err)
+		slog.Error("Command failed", slogutils.Err(err))
 	}
 }

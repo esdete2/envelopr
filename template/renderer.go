@@ -13,6 +13,8 @@ type Renderer struct {
 	partials  []Template
 }
 
+var ErrTemplateNotFound = errors.New("template not found")
+
 func NewRenderer(documents, partials []Template) *Renderer {
 	return &Renderer{
 		documents: documents,
@@ -30,7 +32,7 @@ func (r *Renderer) Render(name string, data interface{}) (string, error) {
 		}
 	}
 	if doc == nil {
-		return "", fmt.Errorf("template not found: %s", name)
+		return "", errors.Wrapf(ErrTemplateNotFound, "template: %s", name)
 	}
 
 	// Create template with main content

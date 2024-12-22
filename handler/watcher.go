@@ -36,7 +36,7 @@ func NewWatcher(proc *Processor, cfg *config.Config, notifier ReloadNotifier) (*
 		return nil, errors.Wrap(err, "creating fsnotify watcher")
 	}
 
-	w := &Watcher{
+	watcher := &Watcher{
 		processor:    proc,
 		fsWatcher:    fsWatcher,
 		config:       cfg,
@@ -45,12 +45,12 @@ func NewWatcher(proc *Processor, cfg *config.Config, notifier ReloadNotifier) (*
 		done:         make(chan struct{}),
 	}
 
-	if err := w.addDirsToWatch(); err != nil {
+	if err := watcher.addDirsToWatch(); err != nil {
 		fsWatcher.Close()
 		return nil, err
 	}
 
-	return w, nil
+	return watcher, nil
 }
 
 func (w *Watcher) addDirsToWatch() error {

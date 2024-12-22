@@ -140,7 +140,7 @@ func (p *Processor) processDocument(doc template.Template, renderer *template.Re
 		}
 	}
 
-	if err := os.WriteFile(outputPath, []byte(html), 0644); err != nil {
+	if err := os.WriteFile(outputPath, []byte(html), 0600); err != nil {
 		return &Error{
 			Type:    ErrorSaving,
 			Doc:     doc.Name,

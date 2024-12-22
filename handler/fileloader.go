@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -15,6 +14,9 @@ type FileLoader struct {
 	documentsPath string
 	partialsPath  string
 }
+
+var ErrTemplateNotFound = errors.New("template not found")
+var ErrDirectoryNotFound = errors.New("directory not found")
 
 func NewFileLoader(documentsPath, partialsPath string) *FileLoader {
 	return &FileLoader{
@@ -38,7 +40,7 @@ func (l *FileLoader) LoadDocument(name string) ([]template.Template, error) {
 
 	// Handle both with and without .mjml extension
 	if !strings.HasSuffix(name, ".mjml") {
-		name = name + ".mjml"
+		name += ".mjml"
 	}
 
 	// Build the full path
@@ -47,7 +49,7 @@ func (l *FileLoader) LoadDocument(name string) ([]template.Template, error) {
 	// Check if file exists
 	if _, err := os.Stat(fullPath); err != nil {
 		if os.IsNotExist(err) {
-			return nil, fmt.Errorf("template does not exist: %s", name)
+			return nil, errors.Wrapf(ErrTemplateNotFound, "template: %s", name)
 		}
 		return nil, errors.Wrap(err, "checking template file")
 	}
@@ -78,7 +80,7 @@ func (l *FileLoader) loadTemplates(dir string) ([]template.Template, error) {
 	// Check if directory exists
 	if _, err := os.Stat(dir); err != nil {
 		if os.IsNotExist(err) {
-			return nil, fmt.Errorf("directory does not exist: %s", dir)
+			return nil, errors.Wrapf(ErrDirectoryNotFound, "directory: %s", dir)
 		}
 		return nil, errors.Wrap(err, "checking directory")
 	}

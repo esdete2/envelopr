@@ -1,4 +1,4 @@
-package handler
+package handler_test
 
 import (
 	"os"
@@ -6,13 +6,15 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/esdete2/mjml-dev/handler"
 )
 
 func TestFileLoader_LoadDocuments(t *testing.T) {
 	t.Run("empty directory path", func(t *testing.T) {
 		r := require.New(t)
 
-		loader := NewFileLoader("", "")
+		loader := handler.NewFileLoader("", "")
 		docs, err := loader.LoadDocuments()
 		r.NoError(err)
 		r.Nil(docs)
@@ -21,7 +23,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 	t.Run("non-existent directory", func(t *testing.T) {
 		r := require.New(t)
 
-		loader := NewFileLoader("/does/not/exist", "")
+		loader := handler.NewFileLoader("/does/not/exist", "")
 		_, err := loader.LoadDocuments()
 		r.Error(err)
 		r.Contains(err.Error(), "directory does not exist")
@@ -35,7 +37,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
-		loader := NewFileLoader(tmpDir, "")
+		loader := handler.NewFileLoader(tmpDir, "")
 		docs, err := loader.LoadDocuments()
 		r.NoError(err)
 		r.Empty(docs)
@@ -62,7 +64,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 			r.NoError(err)
 		}
 
-		loader := NewFileLoader(tmpDir, "")
+		loader := handler.NewFileLoader(tmpDir, "")
 		docs, err := loader.LoadDocuments()
 		r.NoError(err)
 		r.Len(docs, 2) // Only .mjml files
@@ -81,7 +83,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 	t.Run("empty directory path", func(t *testing.T) {
 		r := require.New(t)
 
-		loader := NewFileLoader("", "")
+		loader := handler.NewFileLoader("", "")
 		partials, err := loader.LoadPartials()
 		r.NoError(err)
 		r.Nil(partials)
@@ -90,7 +92,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 	t.Run("non-existent directory", func(t *testing.T) {
 		r := require.New(t)
 
-		loader := NewFileLoader("", "/does/not/exist")
+		loader := handler.NewFileLoader("", "/does/not/exist")
 		_, err := loader.LoadPartials()
 		r.Error(err)
 		r.Contains(err.Error(), "directory does not exist")
@@ -103,7 +105,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
-		loader := NewFileLoader("", tmpDir)
+		loader := handler.NewFileLoader("", tmpDir)
 		partials, err := loader.LoadPartials()
 		r.NoError(err)
 		r.Empty(partials)
@@ -130,7 +132,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 			r.NoError(err)
 		}
 
-		loader := NewFileLoader("", tmpDir)
+		loader := handler.NewFileLoader("", tmpDir)
 		partials, err := loader.LoadPartials()
 		r.NoError(err)
 		r.Len(partials, 2) // Only .mjml files

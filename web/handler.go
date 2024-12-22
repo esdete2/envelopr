@@ -76,7 +76,11 @@ func (s *Server) handleRawTemplate() http.HandlerFunc {
 
 		// Set proper content type for HTML
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.Write(content)
+		_, err = w.Write(content)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
 	}
 }
 

@@ -1,4 +1,4 @@
-package handler
+package handler_test
 
 import (
 	"os"
@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/require"
 
 	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/mjml-dev/handler"
 )
 
 func TestProcessor(t *testing.T) {
@@ -78,7 +79,7 @@ func TestProcessor(t *testing.T) {
 	}
 
 	// Create and run processor
-	processor, err := NewProcessor(cfg)
+	processor, err := handler.NewProcessor(cfg)
 	r.NoError(err)
 
 	err = processor.Process()
@@ -117,13 +118,13 @@ func TestProcessor_Errors(t *testing.T) {
 			},
 		}
 
-		processor, err := NewProcessor(cfg)
+		processor, err := handler.NewProcessor(cfg)
 		r.NoError(err)
 		err = processor.Process()
 		r.Error(err)
-		var procErr *Error
+		var procErr *handler.Error
 		r.ErrorAs(err, &procErr)
-		r.Equal(ErrorLoadingFiles, procErr.Type)
+		r.Equal(handler.ErrorLoadingFiles, procErr.Type)
 	})
 
 	t.Run("invalid template syntax", func(t *testing.T) {
@@ -149,14 +150,14 @@ func TestProcessor_Errors(t *testing.T) {
 			},
 		}
 
-		processor, err := NewProcessor(cfg)
+		processor, err := handler.NewProcessor(cfg)
 		r.NoError(err)
 
 		err = processor.Process()
 		r.Error(err)
-		var procErr *Error
+		var procErr *handler.Error
 		r.ErrorAs(err, &procErr)
-		r.Equal(ErrorRendering, procErr.Type)
+		r.Equal(handler.ErrorRendering, procErr.Type)
 		r.Equal("invalid", procErr.Doc)
 	})
 
@@ -186,14 +187,14 @@ func TestProcessor_Errors(t *testing.T) {
 			},
 		}
 
-		processor, err := NewProcessor(cfg)
+		processor, err := handler.NewProcessor(cfg)
 		r.NoError(err)
 
 		err = processor.Process()
 		r.Error(err)
-		var procErr *Error
+		var procErr *handler.Error
 		r.ErrorAs(err, &procErr)
-		r.Equal(ErrorSaving, procErr.Type)
+		r.Equal(handler.ErrorSaving, procErr.Type)
 	})
 }
 
@@ -227,7 +228,7 @@ func TestProcessor_Configuration(t *testing.T) {
 				Minify: true,
 			},
 		}
-		processorMin, err := NewProcessor(cfgMinified)
+		processorMin, err := handler.NewProcessor(cfgMinified)
 		r.NoError(err)
 		r.NoError(processorMin.Process())
 
@@ -241,7 +242,7 @@ func TestProcessor_Configuration(t *testing.T) {
 				Minify: false,
 			},
 		}
-		processorPretty, err := NewProcessor(cfgPretty)
+		processorPretty, err := handler.NewProcessor(cfgPretty)
 		r.NoError(err)
 		r.NoError(processorPretty.Process())
 

@@ -1,0 +1,17 @@
+{
+  "packages": [
+    "go@1.23.3",
+    "golangci-lint@1.62.0"
+  ],
+  "shell": {
+    "scripts": {
+      "lint": [
+        "golangci-lint run --out-format tab"
+      ],
+      "goland:setup": [
+        "sed -i '' 's#\\(<component name=\"GOROOT\" url=\\)\"[^\"]*\"#\\1\"file://\\$PROJECT_DIR\\$/.devbox/nix/profile/default/share/go\"#' .idea/workspace.xml",
+        "grep -q 'GOROOT' .idea/workspace.xml || sed -i '' 's#</project>#<component name=\"GOROOT\" url=\"file://\\$PROJECT_DIR\\$/.devbox/nix/profile/default/share/go\" /></project>#' .idea/workspace.xml"
+      ]
+    }
+  }
+}
