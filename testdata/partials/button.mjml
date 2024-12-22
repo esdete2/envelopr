@@ -1,10 +1,12 @@
 {{ define "button" }}
-<mj-raw>
-    <a
-        href={{ .url }}
-        style="color:#fff;background-color:#446;font-size:20px;font-weight:700;"
-    >
-        {{ .label }}
-    </a>
-</mj-raw>
+<mj-button
+        href="{{ .url }}"
+        color="#fff"
+        background-color="#446"
+        font-size="20px"
+        font-weight="bold"
+        text-transform="uppercase"
+>
+    {{ .label }}
+</mj-button>
 {{ end }}

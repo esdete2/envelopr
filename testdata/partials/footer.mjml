@@ -22,10 +22,9 @@
             {{ .city }}<br />
             {{ .country }}<br />
             <br />
-            Hotline: <a class="link" href="tel:{{ .hotline }}">{{ .hotline }}</a><br />
-            Email: <a class="link" href="mailto:{{ .email }}">{{ .email }}</a
+            Email: <a style="color: #fff;text-decoration:underline;" class="link" href="mailto:{{ .email }}">{{ .email }}</a
         ><br />
-            Web: <a class="link" href="{{ .website }}">{{ .website }}</a>
+            Web: <a style="color: #fff;text-decoration:underline;" class="link" href="{{ .website }}">{{ .website }}</a>
         </mj-text>
     </mj-column>
 </mj-section>

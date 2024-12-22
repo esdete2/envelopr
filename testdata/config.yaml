@@ -10,6 +10,24 @@ template:
   preserveHrefExpressions: true
 
   variables:
+    street: Elm Street
+    city: Springfield
+    country: Germany
+    email: hey@slurpnburp.com
+    website: https://slurpnburp.com
   documents:
     newsletter:
-      shopUrl: https://example.shop
+      shopUrl: https://shop.slurpnburp.com
+    shop:
+      invoice:
+        invoiceNumber: 123456
+        items:
+          - name: "Item 1"
+            price: 10.00
+            quantity: 1
+          - name: "Item 2"
+            price: 20.00
+            quantity: 2
+          - name: "Item 3"
+            price: 30.00
+            quantity: 3

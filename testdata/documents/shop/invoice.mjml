@@ -1,13 +1,11 @@
 {{template "layout" .}}
 
 {{define "content"}}
-<mj-section>
+<mj-section background-color="#fff">
     <mj-column>
-        <mj-text>
-            Hello {{ expression ".username" }}!
-        </mj-text>
-        <mj-text>
-            Here is your invoice {{ .invoiceNumber }}.
+        {{ template "title" . }}
+        <mj-text color="#555">
+            Here is your invoice #{{ .invoiceNumber }}.
         </mj-text>
 
         <mj-table>
@@ -24,15 +22,6 @@
                 <td style="padding: 0 0 0 15px;">{{.price}}</td>
             </tr>
             {{end}}
-
-            {{ "{{range .items}}" }}
-            <tr>
-                <td style="padding: 0 15px 0 0;">{{.name}}</td>
-                <td style="padding: 0 15px;">{{.quantity}}</td>
-                <td style="padding: 0 0 0 15px;">{{.price}}</td>
-            </tr>
-            {{ "{{end}}" }}
-
         </mj-table>
     </mj-column>
 </mj-section>
