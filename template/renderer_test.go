@@ -59,7 +59,7 @@ func TestRenderer(t *testing.T) {
 		renderer := template.NewRenderer(nil, nil)
 		result, err := renderer.Render("nonexistent", nil)
 		r.Error(err)
-		r.Contains(err.Error(), "template not found")
+		r.Contains(err.Error(), template.ErrTemplateNotFound.Error())
 		r.Empty(result)
 	})
 

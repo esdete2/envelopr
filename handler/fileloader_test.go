@@ -26,7 +26,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 		loader := handler.NewFileLoader("/does/not/exist", "")
 		_, err := loader.LoadDocuments()
 		r.Error(err)
-		r.Contains(err.Error(), "directory does not exist")
+		r.Contains(err.Error(), handler.ErrDirectoryNotFound.Error())
 	})
 
 	t.Run("empty but existing directory", func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 		loader := handler.NewFileLoader("", "/does/not/exist")
 		_, err := loader.LoadPartials()
 		r.Error(err)
-		r.Contains(err.Error(), "directory does not exist")
+		r.Contains(err.Error(), handler.ErrDirectoryNotFound.Error())
 	})
 
 	t.Run("empty but existing directory", func(t *testing.T) {
