@@ -63,16 +63,12 @@ func TestProcessor(t *testing.T) {
 			Variables: map[string]any{
 				"email": "test@example.com",
 			},
-			Documents: map[string]config.Template{
-				"welcome": {
-					Variables: map[string]any{
-						"name": "World",
-					},
+			Documents: map[string]any{
+				"welcome": map[string]any{
+					"name": "World",
 				},
-				"nested/newsletter": {
-					Variables: map[string]any{
-						"title": "Latest News",
-					},
+				"nested/newsletter": map[string]any{
+					"title": "Latest News",
 				},
 			},
 		},

@@ -42,14 +42,10 @@ template:
    year: 2024
  documents:
    welcome:
-     title: Welcome Email
-     variables:
-       userName: John Doe
-       activationLink: https://example.com/activate
+     userName: John Doe
+     activationLink: https://example.com/activate
    newsletter:
-     title: Monthly Newsletter
-     variables:
-       title: Latest Updates
+     title: Latest Updates
 `
 		configPath := filepath.Join(tmpDir, "config.yaml")
 		err = os.WriteFile(configPath, []byte(configContent), 0644)
@@ -82,13 +78,11 @@ template:
 		// Check document configs
 		welcome, exists := cfg.Template.Documents["welcome"]
 		r.True(exists)
-		r.Equal("Welcome Email", welcome.Title)
-		r.Equal("John Doe", welcome.Variables["userName"])
+		r.Equal("John Doe", welcome.(map[string]interface{})["userName"])
 
 		newsletter, exists := cfg.Template.Documents["newsletter"]
 		r.True(exists)
-		r.Equal("Monthly Newsletter", newsletter.Title)
-		r.Equal("Latest Updates", newsletter.Variables["title"])
+		r.Equal("Latest Updates", newsletter.(map[string]interface{})["title"])
 	})
 
 	t.Run("missing config file", func(t *testing.T) {
