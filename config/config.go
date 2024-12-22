@@ -21,15 +21,10 @@ type MJMLConfig struct {
 	Fonts           map[string]string `yaml:"fonts"`
 }
 
-type Template struct {
-	Title     string         `yaml:"title"`
-	Variables map[string]any `yaml:"variables"`
-}
-
 type TemplateConfig struct {
-	PreserveHrefExpressions bool                `yaml:"preserveHrefExpressions"`
-	Variables               map[string]any      `yaml:"variables"`
-	Documents               map[string]Template `yaml:"documents"`
+	PreserveHrefExpressions bool           `yaml:"preserveHrefExpressions"`
+	Variables               map[string]any `yaml:"variables"`
+	Documents               map[string]any `yaml:"documents"`
 }
 
 type Config struct {

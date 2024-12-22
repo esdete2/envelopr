@@ -3,6 +3,7 @@ package handler
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/friendsofgo/errors"
 
@@ -100,13 +101,26 @@ func (p *Processor) ProcessSingle(templateName string) error {
 
 func (p *Processor) processDocument(doc template.Template, renderer *template.Renderer) error {
 	// Prepare data
-	data := make(map[string]interface{})
+	data := make(map[string]any)
+
+	// Add global variables
 	for k, v := range p.config.Template.Variables {
 		data[k] = v
 	}
-	if docCfg, exists := p.config.Template.Documents[doc.Name]; exists {
-		for k, v := range docCfg.Variables {
-			data[k] = v
+
+	// Add document-specific variables
+	parts := strings.Split(doc.Name, "/")
+
+	if docVars, exists := p.config.Template.Documents[doc.Name]; exists {
+		data = mergeMaps(data, docVars)
+	} else if len(parts) > 1 {
+		// Handle nested structure (e.g., "shop/invoice")
+		if parentVars, exists := p.config.Template.Documents[parts[0]]; exists {
+			if parentMap, ok := parentVars.(map[string]any); ok {
+				if childVars, exists := parentMap[parts[1]]; exists {
+					data = mergeMaps(data, childVars)
+				}
+			}
 		}
 	}
 
@@ -149,4 +163,25 @@ func (p *Processor) processDocument(doc template.Template, renderer *template.Re
 	}
 
 	return nil
+}
+
+func mergeMaps(target map[string]any, source any) map[string]any {
+	if source == nil {
+		return target
+	}
+
+	switch v := source.(type) {
+	case map[string]any:
+		for key, val := range v {
+			target[key] = val
+		}
+	case map[interface{}]interface{}:
+		for key, val := range v {
+			if strKey, ok := key.(string); ok {
+				target[strKey] = val
+			}
+		}
+	}
+
+	return target
 }

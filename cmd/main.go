@@ -17,7 +17,7 @@ func main() {
 				Name:    "verbosity",
 				Usage:   "Verbosity: 1=error, 2=warn, 3=info, 4=debug, 5=trace",
 				Aliases: []string{"v"},
-				Value:   4,
+				Value:   3,
 			},
 		},
 		Before: func(c *cli.Context) error {

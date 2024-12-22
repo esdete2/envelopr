@@ -22,7 +22,7 @@ func NewRenderer(documents, partials []Template) *Renderer {
 	}
 }
 
-func (r *Renderer) Render(name string, data interface{}) (string, error) {
+func (r *Renderer) Render(name string, data any) (string, error) {
 	// Find the document
 	var doc *Template
 	for _, d := range r.documents {
@@ -40,11 +40,11 @@ func (r *Renderer) Render(name string, data interface{}) (string, error) {
 		"expression": func(expression string) string {
 			return fmt.Sprintf("{{ %s }}", expression)
 		},
-		"dict": func(values ...interface{}) (map[string]interface{}, error) {
+		"dict": func(values ...any) (map[string]any, error) {
 			if len(values)%2 != 0 {
 				return nil, errors.New("invalid dict call")
 			}
-			dict := make(map[string]interface{}, len(values)/2)
+			dict := make(map[string]any, len(values)/2)
 			for i := 0; i < len(values); i += 2 {
 				key, ok := values[i].(string)
 				if !ok {
