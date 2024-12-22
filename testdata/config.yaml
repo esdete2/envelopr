@@ -1,0 +1,15 @@
+paths:
+  documents: testdata/documents
+  partials: testdata/partials
+  output: testdata/output
+
+mjml:
+  minify: false
+
+template:
+  preserveHrefExpressions: true
+
+  variables:
+  documents:
+    newsletter:
+      shopUrl: https://example.shop

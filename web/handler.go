@@ -69,7 +69,6 @@ func (s *Server) handleRawTemplate() http.HandlerFunc {
 
 		content, err := os.ReadFile(filepath.Join(s.options.Output, templatePath))
 		if err != nil {
-			slog.With("path", templatePath).Error("template not found", slogutils.Err(err))
 			http.Error(w, "Template not found", http.StatusNotFound)
 			return
 		}

@@ -6,16 +6,16 @@
   "shell": {
     "scripts": {
       "dev": [
-        "go run github.com/air-verse/air@latest watch"
+        "go run github.com/air-verse/air@latest watch -c testdata/config.yaml"
       ],
       "test": [
         "go test ./..."
       ],
       "build": [
-        "go run ./cmd build"
+        "go run ./cmd build -c testdata/config.yaml"
       ],
       "watch": [
-        "go run ./cmd watch"
+        "go run ./cmd watch -c testdata/config.yaml"
       ],
       "lint": [
         "golangci-lint run --out-format tab"
