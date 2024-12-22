@@ -25,7 +25,7 @@ func main() {
 				Name:    "verbosity",
 				Usage:   "Verbosity: 1=error, 2=warn, 3=info, 4=debug, 5=trace",
 				Aliases: []string{"v"},
-				Value:   3,
+				Value:   4,
 			},
 		},
 		Before: func(c *cli.Context) error {
@@ -84,7 +84,7 @@ func main() {
 					&cli.StringFlag{
 						Name:  "host",
 						Usage: "Server host",
-						Value: "localhost",
+						Value: "0.0.0.0",
 					},
 					&cli.StringFlag{
 						Name:  "port",

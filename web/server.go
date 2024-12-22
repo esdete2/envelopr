@@ -3,7 +3,6 @@ package web
 import (
 	"log/slog"
 	"net/http"
-	"time"
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
@@ -42,20 +41,21 @@ func NewServer(opts *ServerOptions) *Server {
 
 func (s *Server) routes() {
 	s.router.Get("/", s.handleIndex())
-	s.router.Get("/_template/*", s.handleRawTemplate())
-	s.router.Get("/_events", s.broker.ServeHTTP)
+	s.router.Route("/_template", func(r chi.Router) {
+		r.Get("/*", s.handleRawTemplate())
+	})
+	s.router.Route("/_events", func(r chi.Router) {
+		r.Get("/", s.broker.ServeHTTP)
+	})
 	s.router.Get("/*", s.handleTemplate())
 }
 
 func (s *Server) Serve(addr string) error {
 	slog.With("address", "http://"+addr).Info("Server started")
+	//nolint: gosec
 	srv := &http.Server{
-		Addr:              addr,
-		Handler:           s.router,
-		ReadTimeout:       15 * time.Second,
-		WriteTimeout:      15 * time.Second,
-		IdleTimeout:       30 * time.Second,
-		ReadHeaderTimeout: 5 * time.Second,
+		Addr:    addr,
+		Handler: s.router,
 	}
 	return srv.ListenAndServe()
 }
@@ -82,7 +82,6 @@ func loggerMiddleware() func(next http.Handler) http.Handler {
 					"path", r.URL.Path,
 					"status", responseWriter.Status(),
 					"size", responseWriter.BytesWritten(),
-					"duration", chimiddleware.GetReqID(r.Context()),
 				).Info("request completed")
 			}()
 

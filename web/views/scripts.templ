@@ -3,17 +3,24 @@ package views
 templ scripts() {
 	<script>
         const EVENTS_ENDPOINT = '/_events';
-        const RECONNECT_DELAY = 5000;
+        const RECONNECT_DELAY = 100;
 
         let eventSource;
+        let reconnectAttempts = 0;
 
         function createEventSource() {
             const source = new EventSource(EVENTS_ENDPOINT);
 
             source.addEventListener('message', handleMessage);
             source.addEventListener('error', handleError);
+            source.addEventListener('open', handleOpenConnection);
 
             return source;
+        }
+
+        function handleOpenConnection(event) {
+            console.log('EventSource connection established.');
+            reconnectAttempts = 0; // Reset reconnect attempts on successful connection
         }
 
         function handleMessage(event) {
@@ -22,7 +29,7 @@ templ scripts() {
             }
 
             const preview = document.getElementById('template-preview');
-            if (preview) {
+            if (preview && preview.contentWindow) {
                 console.log('Reloading preview...');
                 preview.contentWindow.location.reload();
             } else {
@@ -31,30 +38,46 @@ templ scripts() {
             }
         }
 
-        function handleError(error) {
-            console.error('EventSource failed:', error);
+        function handleError(event) {
+            if (event.target.readyState === EventSource.CLOSED) {
+                console.error('Connection closed by the server.');
+            } else {
+                console.error('EventSource encountered an error:', event);
+            }
             reconnect();
         }
 
         function reconnect() {
+            const delay = Math.min(2 ** reconnectAttempts * RECONNECT_DELAY, 5000);
+            reconnectAttempts++;
+            console.log(`Reconnection attempt ${reconnectAttempts} in ${delay / 1000} seconds...`);
+
             if (eventSource) {
-                eventSource.removeEventListener('message', handleMessage);
-                eventSource.removeEventListener('error', handleError);
-                eventSource.close();
+                cleanupEventSource(eventSource);
             }
 
             setTimeout(() => {
                 eventSource = createEventSource();
-            }, RECONNECT_DELAY);
+            }, delay);
         }
 
         function cleanupEventSource(source) {
+            if (!source) return;
+
             source.removeEventListener('message', handleMessage);
             source.removeEventListener('error', handleError);
+            source.removeEventListener('open', handleOpenConnection);
             source.close();
+
+            console.log('EventSource connection cleaned up.');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            if (!window.EventSource) {
+                console.error('EventSource is not supported in this browser.');
+                return;
+            }
+
             eventSource = createEventSource();
         });
 
