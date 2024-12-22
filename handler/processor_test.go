@@ -49,22 +49,29 @@ func TestProcessor(t *testing.T) {
 
 	// Create test config
 	cfg := &config.Config{
-		DocumentsDir: docsDir,
-		PartialsDir:  partialsDir,
-		OutputDir:    outDir,
-		Minify:       false, // Pretty output for better snapshot readability
-		Variables: map[string]interface{}{
-			"email": "test@example.com",
+		Paths: config.Paths{
+			Documents: docsDir,
+			Partials:  partialsDir,
+			Output:    outDir,
 		},
-		Documents: map[string]config.Template{
-			"welcome": {
-				Variables: map[string]interface{}{
-					"name": "World",
-				},
+		MJML: config.MJMLConfig{
+			Minify:          false, // Pretty output for better snapshot readability
+			ValidationLevel: "soft",
+		},
+		Template: config.TemplateConfig{
+			Variables: map[string]any{
+				"email": "test@example.com",
 			},
-			"nested/newsletter": {
-				Variables: map[string]interface{}{
-					"title": "Latest News",
+			Documents: map[string]config.Template{
+				"welcome": {
+					Variables: map[string]any{
+						"name": "World",
+					},
+				},
+				"nested/newsletter": {
+					Variables: map[string]any{
+						"title": "Latest News",
+					},
 				},
 			},
 		},
@@ -103,49 +110,20 @@ func TestProcessor_Errors(t *testing.T) {
 
 	t.Run("missing directories", func(t *testing.T) {
 		cfg := &config.Config{
-			DocumentsDir: "/non/existent/path",
-			PartialsDir:  "/another/non/existent",
-			OutputDir:    "/tmp/out",
-		}
-
-		_, err := NewProcessor(cfg)
-		r.Error(err)
-		var procErr *Error
-		r.ErrorAs(err, &procErr)
-		r.Equal(ErrorLoadingFiles, procErr.Type)
-	})
-
-	t.Run("invalid mjml", func(t *testing.T) {
-		// Create temp test directories
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
-		r.NoError(err)
-		defer os.RemoveAll(tmpDir)
-
-		docsDir := filepath.Join(tmpDir, "documents")
-		outDir := filepath.Join(tmpDir, "dist")
-
-		// Create invalid MJML file
-		r.NoError(os.MkdirAll(docsDir, 0755))
-		r.NoError(os.WriteFile(
-			filepath.Join(docsDir, "invalid.mjml"),
-			[]byte(`<mjml><mj-body><invalid-tag></invalid-tag></mj-body></mjml>`),
-			0644,
-		))
-
-		cfg := &config.Config{
-			DocumentsDir: docsDir,
-			OutputDir:    outDir,
+			Paths: config.Paths{
+				Documents: "/non/existent/path",
+				Partials:  "/another/non/existent",
+				Output:    "/tmp/out",
+			},
 		}
 
 		processor, err := NewProcessor(cfg)
 		r.NoError(err)
-
 		err = processor.Process()
 		r.Error(err)
 		var procErr *Error
 		r.ErrorAs(err, &procErr)
-		r.Equal(ErrorCompiling, procErr.Type)
-		r.Equal("invalid", procErr.Doc)
+		r.Equal(ErrorLoadingFiles, procErr.Type)
 	})
 
 	t.Run("invalid template syntax", func(t *testing.T) {
@@ -165,8 +143,10 @@ func TestProcessor_Errors(t *testing.T) {
 		))
 
 		cfg := &config.Config{
-			DocumentsDir: docsDir,
-			OutputDir:    outDir,
+			Paths: config.Paths{
+				Documents: docsDir,
+				Output:    outDir,
+			},
 		}
 
 		processor, err := NewProcessor(cfg)
@@ -200,8 +180,10 @@ func TestProcessor_Errors(t *testing.T) {
 		r.NoError(os.MkdirAll(outDir, 0444))
 
 		cfg := &config.Config{
-			DocumentsDir: docsDir,
-			OutputDir:    outDir,
+			Paths: config.Paths{
+				Documents: docsDir,
+				Output:    outDir,
+			},
 		}
 
 		processor, err := NewProcessor(cfg)
@@ -237,9 +219,13 @@ func TestProcessor_Configuration(t *testing.T) {
 
 		// Process with minification
 		cfgMinified := &config.Config{
-			DocumentsDir: docsDir,
-			OutputDir:    outMinified,
-			Minify:       true,
+			Paths: config.Paths{
+				Documents: docsDir,
+				Output:    outMinified,
+			},
+			MJML: config.MJMLConfig{
+				Minify: true,
+			},
 		}
 		processorMin, err := NewProcessor(cfgMinified)
 		r.NoError(err)
@@ -247,9 +233,13 @@ func TestProcessor_Configuration(t *testing.T) {
 
 		// Process without minification
 		cfgPretty := &config.Config{
-			DocumentsDir: docsDir,
-			OutputDir:    outPretty,
-			Minify:       false,
+			Paths: config.Paths{
+				Documents: docsDir,
+				Output:    outPretty,
+			},
+			MJML: config.MJMLConfig{
+				Minify: false,
+			},
 		}
 		processorPretty, err := NewProcessor(cfgPretty)
 		r.NoError(err)

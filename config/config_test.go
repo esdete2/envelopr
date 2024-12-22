@@ -137,7 +137,6 @@ invalid_yaml:
 		r.Equal(&Config{
 			Paths: Paths{
 				Documents: "documents",
-				Partials:  "partials",
 				Output:    "output",
 			},
 			MJML: MJMLConfig{

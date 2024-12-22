@@ -30,6 +30,10 @@ func (c *Compiler) Compile(content string) (string, error) {
 		mjml.WithValidationLevel(mjml.ValidationLevel(c.config.MJML.ValidationLevel)),
 	}
 
+	if len(c.config.MJML.Fonts) > 0 {
+		options = append(options, mjml.WithFonts(c.config.MJML.Fonts))
+	}
+
 	// Compile MJML to HTML
 	html, err := mjml.ToHTML(context.Background(), content, options...)
 	if err != nil {

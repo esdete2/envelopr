@@ -14,10 +14,11 @@ type Paths struct {
 }
 
 type MJMLConfig struct {
-	ValidationLevel string `yaml:"validationLevel"`
-	KeepComments    bool   `yaml:"keepComments"`
-	Beautify        bool   `yaml:"beautify"`
-	Minify          bool   `yaml:"minify"`
+	ValidationLevel string            `yaml:"validationLevel"`
+	KeepComments    bool              `yaml:"keepComments"`
+	Beautify        bool              `yaml:"beautify"`
+	Minify          bool              `yaml:"minify"`
+	Fonts           map[string]string `yaml:"fonts"`
 }
 
 type Template struct {
