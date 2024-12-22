@@ -1,0 +1,40 @@
+<mj-section background-color="#fff" padding-top="0">
+    <mj-column>
+        <mj-text>
+            Happy Slurping,<br />
+            The Slurp & Burp Team</mj-text
+        >
+    </mj-column>
+</mj-section>
+<mj-section padding-bottom="0">
+    <mj-column>
+        <mj-text
+                color="#fff"
+                font-size="12px"
+                font-weight="bold"
+                line-height="16px"
+                padding-bottom="0"
+        >
+            Slurp & Burp Ramen
+        </mj-text>
+        <mj-text color="#fff" font-size="12px" line-height="16px" padding-top="0">
+            {{ .street }}<br />
+            {{ .city }}<br />
+            {{ .country }}<br />
+            <br />
+            Hotline: <a class="link" href="tel:{{ .hotline }}">{{ .hotline }}</a><br />
+            Email: <a class="link" href="mailto:{{ .email }}">{{ .email }}</a
+        ><br />
+            Web: <a class="link" href="{{ .website }}">{{ .website }}</a>
+        </mj-text>
+    </mj-column>
+</mj-section>
+<mj-section padding-top="0">
+    <mj-column>
+        <mj-social align="center">
+            <mj-social-element name="facebook" />
+            <mj-social-element name="pinterest" />
+            <mj-social-element name="instagram" />
+        </mj-social>
+    </mj-column>
+</mj-section>

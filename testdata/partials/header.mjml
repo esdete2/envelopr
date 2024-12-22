@@ -1,0 +1,20 @@
+<mj-section css-class="body-section">
+    <mj-column>
+        <mj-image
+                src="https://img.logoipsum.com/290.svg"
+                alt="Slurp & Burp Ramen"
+                align="center"
+                width="150px"
+        />
+        <mj-text
+                color="#fff"
+                align="center"
+                font-size="24px"
+                padding-top="0"
+                font-weight="bold"
+                text-transform="uppercase"
+        >
+            Slurp & Burp Ramen
+        </mj-text>
+    </mj-column>
+</mj-section>

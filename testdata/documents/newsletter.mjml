@@ -1,0 +1,77 @@
+{{template "layout" .}}
+
+{{define "content"}}
+<mj-section background-color="#fff">
+    <mj-column>
+        <mj-text font-size="20px" font-weight="600">Dear Noodle Lover,</mj-text>
+        <mj-text color="#555"
+        >Get ready to embark on a flavor-packed journey that will tantalize
+            your taste buds and warm your soul! Here at Slurp & Burp Ramen, we're
+            not just about ramen; we're about creating moments of joy, one slurp
+            at a time.
+        </mj-text
+        >
+
+
+
+        <mj-text font-weight="600">This Week's Special Offer 🍜</mj-text>
+        <mj-text color="#555"
+        >To make your ramen experience even more unforgettable, we're dishing
+            out an exclusive offer just for you:
+        </mj-text
+        >
+        <mj-text font-weight="600"
+        >Buy One Bowl, Get the Second at 50% Off!
+        </mj-text
+        >
+        <mj-text color="#555"
+        >Yes, you heard it right! There's never been a better time to share
+            the joy of ramen with friends, family, or that special someone. Use
+            code SLURPBURPLOVE at checkout to redeem this mouthwatering
+            offer.
+        </mj-text
+        >
+    </mj-column>
+</mj-section>
+
+
+<mj-section background-color="#fff">
+    <mj-column>
+        <mj-text font-size="18px" font-weight="600" padding-bottom="0"
+        >Why Choose Slurp & Burp Ramen?
+        </mj-text
+        >
+        <mj-text color="#555" padding-top="0">
+            <ul>
+                <li>
+                    <strong>Authentic Flavors:</strong>
+                    Our recipes are a heartfelt ode to
+                    traditional Japanese ramen, crafted with the freshest ingredients and
+                    a sprinkle of Slurp & Burp magic.
+                </li>
+                <li>
+                    <strong>Adventure in Every Bowl:</strong>
+                    From the spicy depths of our
+                    Fiery Miso to the soothing embrace of our Silky Shoyu, there's a bowl
+                    for every mood and craving.
+                </li>
+                <li>
+                    <strong>Sustainability First:</strong>
+                    We're committed to
+                    sustainability, using eco-friendly packaging and locally sourced
+                    ingredients to reduce our carbon footprint.
+                </li>
+            </ul>
+        </mj-text>
+    </mj-column>
+</mj-section>
+<mj-section background-color="#fff">
+    <mj-column>
+        <mj-text
+        >Thank you for being a valued member of the Slurp & Burp family. We're
+            excited to continue sharing our love for ramen with you.
+        </mj-text
+        >
+    </mj-column>
+</mj-section>
+{{end}}

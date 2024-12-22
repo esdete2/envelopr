@@ -1,0 +1,164 @@
+package views
+
+templ stylesheet() {
+	<style>
+        /* Global */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #000;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 1rem;
+        }
+
+        a {
+            color: #000;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #70a9ff;
+        }
+
+        .c-main {
+            min-height: 100vh;
+        }
+
+        .c-main--list {
+            padding: 2rem;
+        }
+
+        .c-main--template {
+            padding: 0 2rem;
+        }
+
+        /* Template list */
+        .c-template-list {
+            padding: 2rem;
+            background-color: #fff;
+            border-radius: 12px;
+            margin: 3rem auto;
+            width: 100%;
+            max-width: 640px;
+        }
+
+        .c-template-list__list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            .c-template-list__list {
+                padding-left: 1.25rem;
+            }
+        }
+
+        .c-template-list__item {
+            padding-top: 0.75rem;
+        }
+
+        .c-template-list__link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .c-template-list__directory-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+        }
+
+        /* Template detail */
+        .c-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 5rem;
+            padding: 0 1rem;
+        }
+
+        .c-header__title {
+            font-weight: 700;
+        }
+
+        .c-header__back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .c-template-preview {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 0 auto;
+            min-height: calc(100vh - 6rem);
+            transition: max-width 150ms ease;
+        }
+
+        .c-template-preview__iframe {
+            width: 100%;
+            min-height: 100%;
+            border: 1px solid #f1f1f1;
+            flex-grow: 1;
+        }
+
+        .c-viewport-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .c-viewport-control__button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: #000;
+            background-color: #fff;
+            border-radius: 1.25rem;
+            cursor: pointer;
+            transition-property: background-color, color;
+            transition-duration: 150ms;
+            transition-timing-function: ease;
+        }
+
+        .c-viewport-control__button:hover {
+            color: #70a9ff;
+        }
+
+        .c-viewport-control__input--mobile:checked ~ .c-template-preview {
+            max-width: calc(375px + 4rem);
+        }
+
+        .c-viewport-control__input--tablet:checked ~ .c-template-preview {
+            max-width: calc(768px + 4rem);
+        }
+
+        .c-viewport-control__input--desktop:checked ~ .c-template-preview {
+            max-width: 100%;
+        }
+
+        .c-viewport-control__input--mobile:checked ~ .c-header .c-viewport-control__button--mobile,
+        .c-viewport-control__input--tablet:checked ~ .c-header .c-viewport-control__button--tablet,
+        .c-viewport-control__input--desktop:checked ~ .c-header .c-viewport-control__button--desktop {
+            color: #fff;
+            background-color: #70a9ff;
+        }
+    </style>
+}

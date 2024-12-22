@@ -1,0 +1,40 @@
+package views
+
+type TreeNode struct {
+	Name     string
+	Path     string
+	IsDir    bool
+	Children []*TreeNode
+}
+
+templ renderTree(node TreeNode, level int) {
+	<ul class="c-template-list__list">
+		for _, child := range node.Children {
+			<li class="c-template-list__item">
+				if child.IsDir {
+					<div class="c-template-list__directory-label">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#70a9ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M5 4h4l3 3h7a2 2 0 0 1 2 2v8a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-11a2 2 0 0 1 2 -2"></path></svg>
+						<span class="c-template-list__directory-title">{ child.Name }</span>
+					</div>
+					@renderTree(*child, level+1)
+				} else {
+					<a href={ templ.SafeURL("/" + child.Path) } class="c-template-list__link">
+						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#70a9ff"><path stroke="none" d="M0 0h24v24H0z" fill="none"></path><path d="M12 2l.117 .007a1 1 0 0 1 .876 .876l.007 .117v4l.005 .15a2 2 0 0 0 1.838 1.844l.157 .006h4l.117 .007a1 1 0 0 1 .876 .876l.007 .117v9a3 3 0 0 1 -2.824 2.995l-.176 .005h-10a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-14a3 3 0 0 1 2.824 -2.995l.176 -.005h5z"></path><path d="M19 7h-4l-.001 -4.001z"></path></svg>
+						{ child.Name }
+					</a>
+				}
+			</li>
+		}
+	</ul>
+}
+
+templ IndexView(tree TreeNode) {
+	@Layout("Templates") {
+		<main class="c-main c-main--list">
+			<div class="c-template-list">
+				<h1>Templates</h1>
+				@renderTree(tree, 1)
+			</div>
+		</main>
+	}
+}

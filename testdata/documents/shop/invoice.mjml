@@ -1,0 +1,39 @@
+{{template "layout" .}}
+
+{{define "content"}}
+<mj-section>
+    <mj-column>
+        <mj-text>
+            Hello {{ expression ".username" }}!
+        </mj-text>
+        <mj-text>
+            Here is your invoice {{ .invoiceNumber }}.
+        </mj-text>
+
+        <mj-table>
+            <tr style="border-bottom:1px solid #ecedee;text-align:left;">
+                <th style="padding: 0 15px 0 0;">Description</th>
+                <th style="padding: 0 15px;">Quantity</th>
+                <th style="padding: 0 0 0 15px;">Price</th>
+            </tr>
+
+            {{range .items}}
+            <tr>
+                <td style="padding: 0 15px 0 0;">{{.name}}</td>
+                <td style="padding: 0 15px;">{{.quantity}}</td>
+                <td style="padding: 0 0 0 15px;">{{.price}}</td>
+            </tr>
+            {{end}}
+
+            {{ "{{range .items}}" }}
+            <tr>
+                <td style="padding: 0 15px 0 0;">{{.name}}</td>
+                <td style="padding: 0 15px;">{{.quantity}}</td>
+                <td style="padding: 0 0 0 15px;">{{.price}}</td>
+            </tr>
+            {{ "{{end}}" }}
+
+        </mj-table>
+    </mj-column>
+</mj-section>
+{{end}}

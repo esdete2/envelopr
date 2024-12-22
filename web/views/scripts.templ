@@ -1,0 +1,68 @@
+package views
+
+templ scripts() {
+	<script>
+        const EVENTS_ENDPOINT = '/_events';
+        const RECONNECT_DELAY = 5000;
+
+        let eventSource;
+
+        function createEventSource() {
+            const source = new EventSource(EVENTS_ENDPOINT);
+
+            source.addEventListener('message', handleMessage);
+            source.addEventListener('error', handleError);
+
+            return source;
+        }
+
+        function handleMessage(event) {
+            if (event.data !== 'reload') {
+                return;
+            }
+
+            const preview = document.getElementById('template-preview');
+            if (preview) {
+                console.log('Reloading preview...');
+                preview.contentWindow.location.reload();
+            } else {
+                console.log('Reloading page...');
+                window.location.reload();
+            }
+        }
+
+        function handleError(error) {
+            console.error('EventSource failed:', error);
+            reconnect();
+        }
+
+        function reconnect() {
+            if (eventSource) {
+                eventSource.removeEventListener('message', handleMessage);
+                eventSource.removeEventListener('error', handleError);
+                eventSource.close();
+            }
+
+            setTimeout(() => {
+                eventSource = createEventSource();
+            }, RECONNECT_DELAY);
+        }
+
+        function cleanupEventSource(source) {
+            source.removeEventListener('message', handleMessage);
+            source.removeEventListener('error', handleError);
+            source.close();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            eventSource = createEventSource();
+        });
+
+        // Cleanup when page is unloaded
+        window.addEventListener('beforeunload', () => {
+            if (eventSource) {
+                cleanupEventSource(eventSource);
+            }
+        });
+    </script>
+}

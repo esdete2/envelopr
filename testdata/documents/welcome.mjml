@@ -1,0 +1,23 @@
+{{template "layout" .}}
+
+{{define "content"}}
+<mj-section background-color="#fff">
+    <mj-column>
+        <mj-text>
+            Hello {{ "{{ .username }}" }}!
+        </mj-text>
+        <mj-text>
+            Welcome to {{ .companyName }}! To get started, please click the link below to verify your email address.
+        </mj-text>
+        {{ template "button" dict
+            "url" "{{ .verificationUrl }}"
+            "label" "Verify email"
+        }}
+
+        <mj-text>
+            If you have any questions, please don't hesitate to contact us at <a href="mailto:{{ .supportEmail }}">
+            {{ .supportEmail }}</a>.
+        </mj-text>
+    </mj-column>
+</mj-section>
+{{end}}
