@@ -2,8 +2,9 @@ package template
 
 import (
 	"context"
+	"log/slog"
+	"net/url"
 	"regexp"
-	"strings"
 
 	"github.com/Boostport/mjml-go"
 	"github.com/friendsofgo/errors"
@@ -42,26 +43,24 @@ func (c *Compiler) Compile(content string) (string, error) {
 
 	// Post-process to decode template syntax if enabled
 	if c.config.Template.PreserveHrefExpressions {
-		html = decodeTemplateURLs(html)
+		html = decodeHrefExpressions(html)
 	}
 
 	return html, nil
 }
 
-func decodeTemplateURLs(html string) string {
+func decodeHrefExpressions(html string) string {
 	// Pattern to match encoded template syntax in href attributes
 	pattern := `href="(%7[bB]%7[bB].*?%7[dD]%7[dD])"`
 	re := regexp.MustCompile(pattern)
 
 	return re.ReplaceAllStringFunc(html, func(match string) string {
-		// Decode the template syntax and spaces
-		decoded := strings.NewReplacer(
-			"%7B", "{",
-			"%7b", "{",
-			"%7D", "}",
-			"%7d", "}",
-			"%20", " ",
-		).Replace(match)
+		decoded, err := url.QueryUnescape(match)
+		if err != nil {
+			slog.With("match", match).Error("failed to decode expression in href attribute")
+			return match
+		}
+
 		return decoded
 	})
 }
