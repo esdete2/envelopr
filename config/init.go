@@ -1,4 +1,3 @@
-// config/init.go
 package config
 
 import (
@@ -8,7 +7,6 @@ import (
 	"github.com/friendsofgo/errors"
 )
 
-// CreateConfig writes the default config template to the specified path
 func CreateDefaultConfig(path string, force bool) error {
 	// Check if file exists
 	if _, err := os.Stat(path); err == nil && !force {

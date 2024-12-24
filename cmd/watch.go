@@ -55,9 +55,10 @@ func watchCmd() *cli.Command {
 				return errors.Wrap(err, "creating processor")
 			}
 
-			// Do initial build
-			if err := proc.Process(); err != nil {
-				return errors.Wrap(err, "initial build")
+			// Initial build
+			err = proc.Process()
+			if err != nil {
+				return errors.Wrap(err, "processing documents")
 			}
 
 			// Create and start file watcher

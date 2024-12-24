@@ -23,18 +23,21 @@ func buildCmd() *cli.Command {
 		},
 		Action: func(c *cli.Context) error {
 			logger := slogutils.FromContext(c.Context)
+
+			// Load configuration
 			cfg, err := config.LoadConfig(c.String("config"))
 			if err != nil {
 				return errors.Wrap(err, "loading config")
 			}
 
+			// Create processor
 			proc, err := handler.NewProcessor(cfg)
 			if err != nil {
 				return errors.Wrap(err, "creating processor")
 			}
 
+			// Build
 			err = proc.Process()
-
 			if err != nil {
 				return errors.Wrap(err, "processing documents")
 			}

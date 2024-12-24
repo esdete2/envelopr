@@ -1,9 +1,8 @@
 package main
 
 import (
-	"log/slog"
-
 	"github.com/friendsofgo/errors"
+	"github.com/networkteam/slogutils"
 	"github.com/urfave/cli/v2"
 
 	"github.com/esdete2/mjml-dev/config"
@@ -26,13 +25,18 @@ func initCmd() *cli.Command {
 			},
 		},
 		Action: func(c *cli.Context) error {
-			configPath := c.String("config")
+			logger := slogutils.FromContext(c.Context)
+
+			path := c.String("config")
 			force := c.Bool("force")
 
-			if err := config.CreateDefaultConfig(configPath, force); err != nil {
+			// Create config file
+			err := config.CreateDefaultConfig(path, force)
+			if err != nil {
 				return errors.Wrap(err, "creating config file")
 			}
-			slog.Info("Created config file", "path", configPath)
+
+			logger.Info("Created config file", "path", path)
 
 			return nil
 		},

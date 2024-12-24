@@ -33,7 +33,7 @@ type ReloadNotifier interface {
 func NewWatcher(proc *Processor, cfg *config.Config, notifier ReloadNotifier) (*Watcher, error) {
 	fsWatcher, err := fsnotify.NewWatcher()
 	if err != nil {
-		return nil, errors.Wrap(err, "creating fsnotify watcher")
+		return nil, errors.Wrap(err, "creating file watcher")
 	}
 
 	watcher := &Watcher{
@@ -84,7 +84,7 @@ func (w *Watcher) addDirsToWatch() error {
 }
 
 func (w *Watcher) Watch() error {
-	slog.With("documents", w.config.Paths.Documents).With("partials", w.config.Paths.Partials).Info("Watching for changes")
+	slog.With("documents", w.config.Paths.Documents).With("partials", w.config.Paths.Partials).Info("Watching for changes...")
 
 	go func() {
 		defer w.fsWatcher.Close()
@@ -163,7 +163,7 @@ func (w *Watcher) handleFileEvent(event fsnotify.Event) error {
 			}
 
 			templateName := strings.TrimSuffix(filepath.ToSlash(relPath), ".mjml")
-			slog.With("template", templateName).Info("Rebuilding template")
+			slog.With("template", templateName).Info("Rebuilding template...")
 
 			if err := w.processor.ProcessSingle(templateName); err != nil {
 				slog.Error("Error rebuilding single template", slogutils.Err(err))

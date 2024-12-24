@@ -146,6 +146,5 @@ func (s *Server) listTemplates() (views.TreeNode, error) {
 		return views.TreeNode{}, err
 	}
 
-	// Convert root back to value type (if needed)
 	return *root, nil
 }
