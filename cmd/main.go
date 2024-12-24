@@ -8,6 +8,12 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+var (
+	Version        = "dev"
+	BuildTimestamp = "unknown"
+	GoVersion      = "unknown"
+)
+
 func main() {
 	app := &cli.App{
 		Name:  "mjml-dev",
@@ -32,6 +38,7 @@ func main() {
 			initCmd(),
 			buildCmd(),
 			watchCmd(),
+			versionCmd(),
 		},
 	}
 
