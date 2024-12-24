@@ -6,7 +6,7 @@
   "shell": {
     "scripts": {
       "dev": [
-        "go run github.com/air-verse/air@latest watch -c testdata/config.yaml"
+        "go run github.com/air-verse/air@v1.61.5 watch -c testdata/config.yaml"
       ],
       "test": [
         "go test ./..."
