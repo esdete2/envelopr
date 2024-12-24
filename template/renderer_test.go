@@ -107,4 +107,73 @@ func TestRenderer(t *testing.T) {
 		r.NoError(err)
 		r.Contains(result, "https://example.com/logo.png")
 	})
+
+	t.Run("dict function with template expression", func(t *testing.T) {
+		r := require.New(t)
+
+		docs := []template.Template{
+			{
+				Name:    "email",
+				Content: `<mjml><mj-body>{{template "button" dict "url" "{{ .campaignUrl }}" "label" "Shop Now"}}</mj-body></mjml>`,
+			},
+		}
+
+		partials := []template.Template{
+			{
+				Name:    "button",
+				Content: `<mj-button href="{{.url}}">{{.label}}</mj-button>`,
+			},
+		}
+
+		renderer := template.NewRenderer(docs, partials)
+		result, err := renderer.Render("email", map[string]interface{}{
+			"campaignUrl": "https://example.com/campaign",
+		})
+		r.NoError(err)
+		r.Contains(result, `href="{{ .campaignUrl }}"`)
+		r.Contains(result, "Shop Now")
+	})
+
+	t.Run("expression function", func(t *testing.T) {
+		r := require.New(t)
+
+		docs := []template.Template{
+			{
+				Name:    "welcome",
+				Content: `<mjml><mj-body><mj-text>Hello {{ expression ".username" }}</mj-text></mj-body></mjml>`,
+			},
+		}
+
+		renderer := template.NewRenderer(docs, nil)
+		result, err := renderer.Render("welcome", nil)
+		r.NoError(err)
+		r.Contains(result, "Hello {{ .username }}")
+	})
+
+	t.Run("combination of dict and expression", func(t *testing.T) {
+		r := require.New(t)
+
+		docs := []template.Template{
+			{
+				Name: "email",
+				Content: `<mjml><mj-body>{{template "button" dict 
+                    "url" (expression ".profileUrl")
+                    "label" (expression ".buttonText")
+                }}</mj-body></mjml>`,
+			},
+		}
+
+		partials := []template.Template{
+			{
+				Name:    "button",
+				Content: `<mj-button href="{{.url}}">{{.label}}</mj-button>`,
+			},
+		}
+
+		renderer := template.NewRenderer(docs, partials)
+		result, err := renderer.Render("email", nil)
+		r.NoError(err)
+		r.Contains(result, `href="{{ .profileUrl }}"`)
+		r.Contains(result, `{{ .buttonText }}`)
+	})
 }

@@ -22,9 +22,8 @@ type MJMLConfig struct {
 }
 
 type TemplateConfig struct {
-	PreserveHrefExpressions bool           `yaml:"preserveHrefExpressions"`
-	Variables               map[string]any `yaml:"variables"`
-	Documents               map[string]any `yaml:"documents"`
+	Variables map[string]any `yaml:"variables"`
+	Documents map[string]any `yaml:"documents"`
 }
 
 type Config struct {

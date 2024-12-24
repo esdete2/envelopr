@@ -2,23 +2,41 @@ package template
 
 import (
 	"bytes"
+	"context"
 	"fmt"
-	"html/template"
+	"text/template"
 
 	"github.com/friendsofgo/errors"
+	"github.com/go-sprout/sprout"
+	"github.com/go-sprout/sprout/registry/maps"
+	"github.com/go-sprout/sprout/registry/numeric"
+	"github.com/go-sprout/sprout/registry/strings"
+	"github.com/networkteam/slogutils"
 )
 
 type Renderer struct {
 	documents []Template
 	partials  []Template
+	sprout    sprout.Handler
 }
 
 var ErrTemplateNotFound = errors.New("template not found")
 
 func NewRenderer(documents, partials []Template) *Renderer {
+	logger := slogutils.FromContext(context.Background())
+	sproutHandler := sprout.New(
+		sprout.WithLogger(logger),
+		sprout.WithRegistries(
+			strings.NewRegistry(),
+			numeric.NewRegistry(),
+			maps.NewRegistry(),
+		),
+	)
+
 	return &Renderer{
 		documents: documents,
 		partials:  partials,
+		sprout:    sproutHandler,
 	}
 }
 
@@ -36,25 +54,10 @@ func (r *Renderer) Render(name string, data any) (string, error) {
 	}
 
 	// Create template with main content
-	tmpl, err := template.New(doc.Name).Funcs(template.FuncMap{
-		"expression": func(expression string) string {
-			return fmt.Sprintf("{{ %s }}", expression)
-		},
-		"dict": func(values ...any) (map[string]any, error) {
-			if len(values)%2 != 0 {
-				return nil, errors.New("invalid dict call")
-			}
-			dict := make(map[string]any, len(values)/2)
-			for i := 0; i < len(values); i += 2 {
-				key, ok := values[i].(string)
-				if !ok {
-					return nil, errors.New("dict keys must be strings")
-				}
-				dict[key] = values[i+1]
-			}
-			return dict, nil
-		},
-	}).Parse(doc.Content)
+	tmpl, err := template.New(doc.Name).
+		Funcs(customTemplateFuncs()).
+		Funcs(r.sprout.Build()).
+		Parse(doc.Content)
 	if err != nil {
 		return "", errors.Wrap(err, "parsing main template")
 	}
@@ -77,4 +80,12 @@ func (r *Renderer) Render(name string, data any) (string, error) {
 
 func (r *Renderer) Documents() []Template {
 	return r.documents
+}
+
+func customTemplateFuncs() template.FuncMap {
+	return template.FuncMap{
+		"expression": func(expression string) string {
+			return fmt.Sprintf("{{ %s }}", expression)
+		},
+	}
 }

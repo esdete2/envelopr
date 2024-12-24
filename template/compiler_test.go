@@ -53,9 +53,6 @@ func TestCompiler(t *testing.T) {
 				Minify:          true,
 				ValidationLevel: "soft",
 			},
-			Template: config.TemplateConfig{
-				PreserveHrefExpressions: true,
-			},
 		}
 		compiler := template.NewCompiler(cfg)
 		result, err := compiler.Compile(input)

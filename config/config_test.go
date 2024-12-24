@@ -34,7 +34,6 @@ mjml:
    Roboto: https://fonts.googleapis.com/css?family=Roboto
 
 template:
- preserveHrefExpressions: true
  variables:
    companyName: ACME Corp
    supportEmail: support@acme.com
@@ -66,9 +65,6 @@ template:
 		r.True(cfg.MJML.Beautify)
 		r.True(cfg.MJML.Minify)
 		r.Equal("https://fonts.googleapis.com/css?family=Roboto", cfg.MJML.Fonts["Roboto"])
-
-		// Verify template config
-		r.True(cfg.Template.PreserveHrefExpressions)
 
 		// Check global variables
 		r.Equal("ACME Corp", cfg.Template.Variables["companyName"])

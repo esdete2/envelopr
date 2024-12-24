@@ -7,8 +7,6 @@ mjml:
   minify: false
 
 template:
-  preserveHrefExpressions: true
-
   variables:
     street: Elm Street
     city: Springfield

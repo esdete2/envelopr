@@ -28,11 +28,6 @@ mjml:
 
 # Template processing settings
 template:
-  # By default, mjml url-encodes the value of href attributes.
-  # This preserves template expressions in href attributes, like href="{{ expression .url }}".
-  # Useful for two-stage template processing.
-  preserveHrefExpressions: true
-
   # Global static variables available to all templates
   variables:
     # companyName: ACME Corp
