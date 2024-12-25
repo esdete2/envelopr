@@ -9,7 +9,7 @@
             address.
         </mj-text>
         {{ template "button" dict
-        "url" "{{ .verificationUrl }}"
+        "url" (exp ".verificationUrl")
         "label" "Verify email"
         }}
         <mj-text color="#555">

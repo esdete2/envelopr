@@ -26,7 +26,7 @@
             offer.
         </mj-text>
         {{template "button" dict
-        "url" "{{ .campaignUrl }}"
+        "url" (exp ".campaignUrl")
         "label" "Shop Now"
         }}
     </mj-column>

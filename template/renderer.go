@@ -83,9 +83,11 @@ func (r *Renderer) Documents() []Template {
 }
 
 func customTemplateFuncs() template.FuncMap {
+	exp := func(expression string) string {
+		return fmt.Sprintf("{{ %s }}", expression)
+	}
 	return template.FuncMap{
-		"expression": func(expression string) string {
-			return fmt.Sprintf("{{ %s }}", expression)
-		},
+		"expression": exp,
+		"exp":        exp,
 	}
 }
