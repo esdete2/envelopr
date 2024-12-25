@@ -40,6 +40,7 @@ func main() {
 
 	if err := app.Run(os.Args); err != nil {
 		slog.Error("Command failed", slogutils.Err(err))
+		os.Exit(1)
 	}
 }
 
