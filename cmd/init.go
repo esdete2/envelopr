@@ -25,8 +25,9 @@ func InitCmd() *cli.Command {
 		Usage: "Initialize a new MJML dev project",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
-				Name:  "no-input",
-				Usage: "Skip wizard and use defaults",
+				Name:    "yes",
+				Usage:   "Skip wizard and use defaults",
+				Aliases: []string{"y"},
 			},
 		},
 		Action: func(c *cli.Context) error {
