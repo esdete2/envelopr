@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -15,7 +15,7 @@ import (
 	"github.com/esdete2/mjml-dev/web"
 )
 
-func watchCmd() *cli.Command {
+func WatchCmd() *cli.Command {
 	return &cli.Command{
 		Name:  "watch",
 		Usage: "Start development server with hot reload",

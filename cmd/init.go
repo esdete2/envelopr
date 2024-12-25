@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"os"
@@ -19,7 +19,7 @@ type initAnswers struct {
 	Force        bool
 }
 
-func initCmd() *cli.Command {
+func InitCmd() *cli.Command {
 	return &cli.Command{
 		Name:  "init",
 		Usage: "Initialize a new MJML dev project",

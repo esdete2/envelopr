@@ -5,13 +5,12 @@ before:
     - go mod tidy
 
 builds:
-  - main: ./cmd
-    env:
+  - env:
       - CGO_ENABLED=0
     ldflags:
-      - -X main.Version={{.Version}}
-      - -X main.BuildTimestamp={{.Timestamp}}
-      - -X main.GoVersion={{.Env.GOVERSION}}
+      - -X {{.ModulePath}}/cmd.Version={{.Version}}
+      - -X {{.ModulePath}}/cmd.BuildTimestamp={{.Timestamp}}
+      - -X {{.ModulePath}}/cmd.GoVersion={{.Env.GOVERSION}}
     goos:
       - linux
       - darwin

@@ -12,10 +12,10 @@
         "go test ./..."
       ],
       "build": [
-        "go run ./cmd build -c testdata/mjml-dev.yaml"
+        "go run . build -c testdata/mjml-dev.yaml"
       ],
       "watch": [
-        "go run ./cmd watch -c testdata/mjml-dev.yaml"
+        "go run . watch -c testdata/mjml-dev.yaml"
       ],
       "lint": [
         "golangci-lint run --out-format tab"

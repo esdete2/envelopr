@@ -6,12 +6,8 @@ import (
 
 	"github.com/networkteam/slogutils"
 	"github.com/urfave/cli/v2"
-)
 
-var (
-	Version        = "dev"
-	BuildTimestamp = "unknown"
-	GoVersion      = "unknown"
+	"github.com/esdete2/mjml-dev/cmd"
 )
 
 func main() {
@@ -35,10 +31,10 @@ func main() {
 			return nil
 		},
 		Commands: []*cli.Command{
-			initCmd(),
-			buildCmd(),
-			watchCmd(),
-			versionCmd(),
+			cmd.InitCmd(),
+			cmd.BuildCmd(),
+			cmd.WatchCmd(),
+			cmd.VersionCmd(),
 		},
 	}
 

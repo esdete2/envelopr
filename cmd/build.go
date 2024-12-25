@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"github.com/friendsofgo/errors"
@@ -9,7 +9,7 @@ import (
 	"github.com/esdete2/mjml-dev/handler"
 )
 
-func buildCmd() *cli.Command {
+func BuildCmd() *cli.Command {
 	return &cli.Command{
 		Name:  "build",
 		Usage: "Build MJML documents",

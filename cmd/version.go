@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"fmt"
@@ -6,7 +6,13 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func versionCmd() *cli.Command {
+var (
+	Version        = "dev"
+	BuildTimestamp = "unknown"
+	GoVersion      = "unknown"
+)
+
+func VersionCmd() *cli.Command {
 	return &cli.Command{
 		Name:    "version",
 		Aliases: []string{"v"},
