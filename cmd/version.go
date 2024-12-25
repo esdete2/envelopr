@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
+//nolint:gochecknoglobals
 var (
 	toolVersion    string
 	goVersion      string
@@ -19,14 +20,14 @@ func VersionCmd() *cli.Command {
 		Name:    "version",
 		Aliases: []string{"v"},
 		Usage:   "Print version information",
-		Action: func(c *cli.Context) error {
+		Action: func(_ *cli.Context) error {
 			version := GetVersionInfo()
 
-			fmt.Printf("Version %s\n", version.toolVersion)
-			fmt.Printf("Go version: %s\n", version.goVersion)
+			fmt.Printf("envelopr Version %s\n", version.toolVersion) //nolint:forbidigo
+			fmt.Printf("Go version: %s\n", version.goVersion)        //nolint:forbidigo
 
 			if len(buildTimestamp) != 0 {
-				fmt.Printf("Build time: %s\n", buildTimestamp)
+				fmt.Printf("Build time: %s\n", buildTimestamp) //nolint:forbidigo
 			}
 			return nil
 		},

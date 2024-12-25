@@ -8,7 +8,7 @@ import (
 	"github.com/networkteam/slogutils"
 	"github.com/urfave/cli/v2"
 
-	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/envelopr/config"
 )
 
 type initAnswers struct {
@@ -35,14 +35,14 @@ func InitCmd() *cli.Command {
 
 			// Default values
 			answers := initAnswers{
-				ConfigPath:   "mjml-dev.yaml",
+				ConfigPath:   "envelopr.yaml",
 				DocumentsDir: "documents",
 				PartialsDir:  "partials",
 				OutputDir:    "output",
 			}
 
-			// Skip wizard if --no-input flag is set
-			if !c.Bool("no-input") {
+			// Skip wizard if --yes flag is set
+			if !c.Bool("yes") {
 				questions := []*survey.Question{
 					{
 						Name: "configPath",

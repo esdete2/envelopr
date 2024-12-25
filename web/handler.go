@@ -10,7 +10,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/networkteam/slogutils"
 
-	"github.com/esdete2/mjml-dev/web/views"
+	"github.com/esdete2/envelopr/web/views"
 )
 
 type IndexData struct {

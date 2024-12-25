@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/esdete2/mjml-dev/handler"
+	"github.com/esdete2/envelopr/handler"
 )
 
 func TestFileLoader_LoadDocuments(t *testing.T) {
@@ -33,7 +33,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 		r := require.New(t)
 
 		// Create empty temp directory
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test-empty")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test-empty")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -46,7 +46,7 @@ func TestFileLoader_LoadDocuments(t *testing.T) {
 	t.Run("directory with files", func(t *testing.T) {
 		r := require.New(t)
 
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -101,7 +101,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 	t.Run("empty but existing directory", func(t *testing.T) {
 		r := require.New(t)
 
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test-empty")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test-empty")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -114,7 +114,7 @@ func TestFileLoader_LoadPartials(t *testing.T) {
 	t.Run("directory with files", func(t *testing.T) {
 		r := require.New(t)
 
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 

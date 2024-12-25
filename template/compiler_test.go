@@ -7,8 +7,8 @@ import (
 	"github.com/bradleyjkemp/cupaloy/v2"
 	"github.com/stretchr/testify/require"
 
-	"github.com/esdete2/mjml-dev/config"
-	"github.com/esdete2/mjml-dev/template"
+	"github.com/esdete2/envelopr/config"
+	"github.com/esdete2/envelopr/template"
 )
 
 func TestCompiler(t *testing.T) {

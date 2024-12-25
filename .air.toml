@@ -4,8 +4,8 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./tmp/mjml-dev"
-  cmd = "templ generate && go build -o ./tmp/mjml-dev ."
+  bin = "./tmp/envelopr"
+  cmd = "templ generate && go build -o ./tmp/envelopr ."
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor"]
   exclude_file = []

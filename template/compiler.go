@@ -6,7 +6,7 @@ import (
 	"github.com/Boostport/mjml-go"
 	"github.com/friendsofgo/errors"
 
-	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/envelopr/config"
 )
 
 type Compiler struct {

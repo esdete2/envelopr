@@ -1,4 +1,4 @@
-module github.com/esdete2/mjml-dev
+module github.com/esdete2/envelopr
 
 go 1.23.3
 

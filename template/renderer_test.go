@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/esdete2/mjml-dev/template"
+	"github.com/esdete2/envelopr/template"
 )
 
 func TestRenderer(t *testing.T) {

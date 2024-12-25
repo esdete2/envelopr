@@ -7,12 +7,12 @@ import (
 	"github.com/networkteam/slogutils"
 	"github.com/urfave/cli/v2"
 
-	"github.com/esdete2/mjml-dev/cmd"
+	"github.com/esdete2/envelopr/cmd"
 )
 
 func main() {
 	app := &cli.App{
-		Name:  "mjml-dev",
+		Name:  "envelopr",
 		Usage: "MJML template development tool",
 		Flags: []cli.Flag{
 			&cli.IntFlag{

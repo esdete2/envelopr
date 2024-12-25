@@ -8,15 +8,15 @@ import (
 	"github.com/bradleyjkemp/cupaloy/v2"
 	"github.com/stretchr/testify/require"
 
-	"github.com/esdete2/mjml-dev/config"
-	"github.com/esdete2/mjml-dev/handler"
+	"github.com/esdete2/envelopr/config"
+	"github.com/esdete2/envelopr/handler"
 )
 
 func TestProcessor(t *testing.T) {
 	r := require.New(t)
 
 	// Create temp test directories
-	tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+	tmpDir, err := os.MkdirTemp("", "envelopr-test")
 	r.NoError(err)
 	defer os.RemoveAll(tmpDir)
 
@@ -124,7 +124,7 @@ func TestProcessor_Errors(t *testing.T) {
 	})
 
 	t.Run("invalid template syntax", func(t *testing.T) {
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -158,7 +158,7 @@ func TestProcessor_Errors(t *testing.T) {
 	})
 
 	t.Run("non-writable output directory", func(t *testing.T) {
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -198,7 +198,7 @@ func TestProcessor_Configuration(t *testing.T) {
 	r := require.New(t)
 
 	t.Run("minification settings", func(t *testing.T) {
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 

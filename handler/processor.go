@@ -7,8 +7,8 @@ import (
 
 	"github.com/friendsofgo/errors"
 
-	"github.com/esdete2/mjml-dev/config"
-	"github.com/esdete2/mjml-dev/template"
+	"github.com/esdete2/envelopr/config"
+	"github.com/esdete2/envelopr/template"
 )
 
 type Processor struct {

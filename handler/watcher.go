@@ -12,7 +12,7 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/networkteam/slogutils"
 
-	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/envelopr/config"
 )
 
 type Watcher struct {

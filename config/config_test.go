@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/esdete2/mjml-dev/config"
+	"github.com/esdete2/envelopr/config"
 )
 
 func TestLoadConfig(t *testing.T) {
@@ -15,7 +15,7 @@ func TestLoadConfig(t *testing.T) {
 		r := require.New(t)
 
 		// Create temp config file
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -46,7 +46,7 @@ template:
    newsletter:
      title: Latest Updates
 `
-		configPath := filepath.Join(tmpDir, "mjml-dev.yaml")
+		configPath := filepath.Join(tmpDir, "envelopr.yaml")
 		err = os.WriteFile(configPath, []byte(configContent), 0644)
 		r.NoError(err)
 
@@ -92,7 +92,7 @@ template:
 	t.Run("invalid yaml", func(t *testing.T) {
 		r := require.New(t)
 
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 
@@ -115,7 +115,7 @@ invalid_yaml:
 	t.Run("empty config", func(t *testing.T) {
 		r := require.New(t)
 
-		tmpDir, err := os.MkdirTemp("", "mjml-dev-test")
+		tmpDir, err := os.MkdirTemp("", "envelopr-test")
 		r.NoError(err)
 		defer os.RemoveAll(tmpDir)
 

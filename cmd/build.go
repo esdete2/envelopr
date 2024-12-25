@@ -5,8 +5,8 @@ import (
 	"github.com/networkteam/slogutils"
 	"github.com/urfave/cli/v2"
 
-	"github.com/esdete2/mjml-dev/config"
-	"github.com/esdete2/mjml-dev/handler"
+	"github.com/esdete2/envelopr/config"
+	"github.com/esdete2/envelopr/handler"
 )
 
 func BuildCmd() *cli.Command {
@@ -18,7 +18,7 @@ func BuildCmd() *cli.Command {
 				Name:    "config",
 				Aliases: []string{"c"},
 				Usage:   "Path to config file",
-				Value:   "mjml-dev.yaml",
+				Value:   "envelopr.yaml",
 			},
 		},
 		Action: func(c *cli.Context) error {

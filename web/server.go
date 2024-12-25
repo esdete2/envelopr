@@ -13,7 +13,7 @@ import (
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
 	"github.com/networkteam/slogutils"
 
-	"github.com/esdete2/mjml-dev/handler"
+	"github.com/esdete2/envelopr/handler"
 )
 
 type Server struct {
