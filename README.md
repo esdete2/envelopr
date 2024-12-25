@@ -30,12 +30,12 @@ go install github.com/esdete2/envelopr@latest
 
 ## Quick Start
 
-1. First enter into your project
+1. First enter into your project:
 ```bash
 cd /path/to/your_project
 ```
 
-2. Initialize a new project in current directory:
+2. Create a default config file and directories:
 ```bash
 envelopr init
 ```
@@ -96,6 +96,7 @@ Envelopr uses Go's template language with additional features for email template
 ### Go Templates
 
 Basic Go template syntax is supported with variables from your config file:
+
 ```html
 # With config:
 template:
@@ -143,7 +144,6 @@ Use `expression` (or its shorter alias `exp`) to preserve Go template expression
 
 Here's another example preserving loop and conditional expressions:
 ```html
-
 <mj-section>
     <mj-column>
         {{ exp "range .products" }}
@@ -166,7 +166,7 @@ Here's another example preserving loop and conditional expressions:
 </div>
 ```
 
-This is useful when the final HTML needs to be processed by another template engine.
+This is useful when the final HTML needs to be processed by go templates again.
 
 ### Partials and Layouts
 
@@ -174,7 +174,6 @@ Create reusable components in the `partials` directory:
 
 `partials/layout.mjml`:
 ```html
-
 <mjml>
     <mj-head>
         <mj-title>{{ .title }}</mj-title>
@@ -189,7 +188,6 @@ Create reusable components in the `partials` directory:
 
 `partials/button.mjml`:
 ```html
-
 <mj-button
     href="{{.url}}"
     background-color="#2563eb"
