@@ -34,6 +34,9 @@ templ IndexView(tree TreeNode) {
 			<div class="c-template-list">
 				<h1>Templates</h1>
 				@renderTree(tree, 1)
+				if len(tree.Children) == 0 {
+					<p>No templates found</p>
+				}
 			</div>
 		</main>
 	}
