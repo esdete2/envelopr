@@ -1,8 +1,13 @@
 package web
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	chimiddleware "github.com/go-chi/chi/v5/middleware"
@@ -57,6 +62,19 @@ func (s *Server) Serve(addr string) error {
 		Addr:    addr,
 		Handler: s.router,
 	}
+
+	go func() {
+		sigChan := make(chan os.Signal, 1)
+		signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+		<-sigChan
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+		if err := srv.Shutdown(ctx); err != nil {
+			slog.Error("Server shutdown failed", slogutils.Err(err))
+		}
+	}()
+
 	return srv.ListenAndServe()
 }
 
