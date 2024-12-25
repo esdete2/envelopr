@@ -78,7 +78,13 @@ func (b *EventBroker) Notify(message string) {
 		select {
 		case clientChan <- message:
 		default:
-			// Skip if client can't keep up
+			// Remove stale clients
+			b.mu.RUnlock()
+			b.mu.Lock()
+			delete(b.clients, clientChan)
+			close(clientChan)
+			b.mu.Unlock()
+			b.mu.RLock()
 		}
 	}
 }
