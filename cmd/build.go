@@ -18,7 +18,7 @@ func buildCmd() *cli.Command {
 				Name:    "config",
 				Aliases: []string{"c"},
 				Usage:   "Path to config file",
-				Value:   "config.yaml",
+				Value:   "mjml-dev.yaml",
 			},
 		},
 		Action: func(c *cli.Context) error {

@@ -3,11 +3,11 @@ package config
 const DefaultConfigTemplate = `# Directory paths for templates, partials and output
 paths:
   # Main directory containing your MJML templates
-  documents: documents
+  documents: %q
   # Directory containing partial templates that can be included
-  partials: partials
+  partials: %q
   # Output directory for compiled HTML files
-  output: output
+  output: %q
 
 # MJML compilation settings
 mjml:

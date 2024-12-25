@@ -46,7 +46,7 @@ template:
    newsletter:
      title: Latest Updates
 `
-		configPath := filepath.Join(tmpDir, "config.yaml")
+		configPath := filepath.Join(tmpDir, "mjml-dev.yaml")
 		err = os.WriteFile(configPath, []byte(configContent), 0644)
 		r.NoError(err)
 

@@ -24,7 +24,7 @@ func watchCmd() *cli.Command {
 				Name:    "config",
 				Aliases: []string{"c"},
 				Usage:   "Path to config file",
-				Value:   "config.yaml",
+				Value:   "mjml-dev.yaml",
 			},
 			&cli.StringFlag{
 				Name:  "host",
